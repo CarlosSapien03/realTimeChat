@@ -1,7 +1,9 @@
 const express = require("express");
 const path = require("path");
+const { createServer } = require("http");
 require("dotenv").config();
 const connectDB = require("./db");
+const setupSocket = require("./socket");
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -14,11 +16,13 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
+const server = createServer(app);
+setupSocket(server);
+
 connectDB()
   .then(() => {
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Servidor corriendo en el puerto ${PORT}`);
+    server.listen(port, () => {
+      console.log(`Servidor escuchando en http://localhost:${port}`);
     });
   })
   .catch((error) => {

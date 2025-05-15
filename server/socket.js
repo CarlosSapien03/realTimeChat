@@ -1,14 +1,17 @@
-const io = require("socket.io");
+const { Server } = require("socket.io");
 
-io.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado");
+function setupSocket(server) {
+  const io = new Server(server);
 
-  socket.on("disconnect", () => {
-    console.log("Cliente desconectado");
+  io.on("connection", (socket) => {
+    console.log("Cliente conectado");
+
+    socket.on("chat message", (msg) => {
+      io.emit("chat message", msg);
+    });
   });
+}
 
-  socket.on("message", (message) => {
-    console.log(`Mensaje recibido: ${message}`);
-    socket.emit("message", `Mensaje recibido: ${message}`);
-  });
-});
+module.exports = setupSocket;
+// This code sets up a Socket.IO server that listens for incoming connections and handles chat messages. When a client connects, it logs a message to the console. When a chat message is received, it emits the message to all connected clients.
+// The setupSocket function is exported for use in other parts of the application.
