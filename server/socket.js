@@ -1,3 +1,4 @@
+const Message = require("./models/message");
 const { Server } = require("socket.io");
 
 function setupSocket(server) {
@@ -6,8 +7,21 @@ function setupSocket(server) {
   io.on("connection", (socket) => {
     console.log("Cliente conectado");
 
-    socket.on("chat message", (msg) => {
-      io.emit("chat message", msg);
+    socket.on("chat message", async ({ sender, message, room }) => {
+      try {
+        const newMessage = {
+          sender,
+          message,
+          room,
+          createdAt: new Date(), // Simulamos un timestamp
+        };
+
+        console.log("Mensaje recibido:", newMessage); // ← Esto lo muestra en consola
+
+        io.emit("chat message", newMessage);
+      } catch (error) {
+        console.error("Error al guardar el mensaje:", error);
+      }
     });
   });
 }
