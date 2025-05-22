@@ -13,10 +13,10 @@ function setupSocket(server) {
           sender,
           message,
           room,
-          createdAt: new Date(), // Simulamos un timestamp
+          createdAt: new Date(),
         };
 
-        console.log("Mensaje recibido:", newMessage); // ← Esto lo muestra en consola
+        console.log("Mensaje recibido:", newMessage);
 
         io.emit("chat message", newMessage);
       } catch (error) {
