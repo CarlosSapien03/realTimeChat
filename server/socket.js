@@ -9,13 +9,13 @@ function setupSocket(server) {
 
     socket.on("chat message", async ({ sender, message, room }) => {
       try {
-        const newMessage = {
+        const newMessage = new Message({
           sender,
           message,
           room,
           createdAt: new Date(),
-        };
-
+        });
+        await newMessage.save();
         console.log("Mensaje recibido:", newMessage);
 
         io.emit("chat message", newMessage);

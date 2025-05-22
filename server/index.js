@@ -1,7 +1,10 @@
 const express = require("express");
 const path = require("path");
 const { createServer } = require("http");
+
 require("dotenv").config();
+console.log("URI de conexión:", process.env.MONGO_URI);
+
 const connectDB = require("./db");
 const setupSocket = require("./socket");
 
