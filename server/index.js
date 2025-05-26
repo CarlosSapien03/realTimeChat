@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { createServer } = require("http");
+const userRoutes = require("./routes/userRoutes");
 
 require("dotenv").config();
 console.log("URI de conexión:", process.env.MONGO_URI);
@@ -11,6 +12,9 @@ const setupSocket = require("./socket");
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Middleware para leer JSON en requests
+app.use(express.json()); // <- NECESARIO para manejar datos del frontend como el registro
+
 // Servir archivos estáticos desde la carpeta client
 app.use(express.static(path.join(__dirname, "..", "client")));
 
@@ -18,6 +22,9 @@ app.use(express.static(path.join(__dirname, "..", "client")));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
+
+//Rutas de usuario
+app.use("/api/users", userRoutes);
 
 const server = createServer(app);
 setupSocket(server);
