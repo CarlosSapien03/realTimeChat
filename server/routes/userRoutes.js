@@ -9,7 +9,11 @@ router.post("/register", async (req, res) => {
 
     //validar campos
     if (!username || !email || !password) {
-      return res.status(400).json({ message: "llena todo pendejo" });
+      return res
+        .status(400)
+        .json({
+          message: "No vas a transear a nadie. Valida los campos bien. ",
+        });
     }
 
     const userExists = await User.findOne({ email });
@@ -20,6 +24,11 @@ router.post("/register", async (req, res) => {
     //crear usuario
     const newUser = new User({ username, email, password });
     await newUser.save();
+    console.log("Usuario registrado:", {
+      username: newUser.username,
+      email: newUser.email,
+    });
+
     res.status(201).json({ message: "Usuario creado exitosamente." });
   } catch (error) {
     console.error("Error al registrar usuario:", error);

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registro</title>
+    <style>
+      body {
+        font-family: Arial;
+        padding: 20px;
+      }
+      input {
+        display: block;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Registro de Usuario</h2>
+    <form id="registerForm">
+      <input
+        type="text"
+        id="username"
+        placeholder="Nombre de usuario"
+        required
+      />
+      <input
+        type="email"
+        id="email"
+        placeholder="Correo electrónico"
+        required
+      />
+      <input
+        type="password"
+        id="password"
+        placeholder="Contraseña (mínimo 6 caracteres)"
+        required
+      />
+      <button type="submit">Registrarse</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          try {
+            const response = await fetch("/api/users/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, email, password }),
+            });
+
+            const data = await response.json();
+            document.getElementById("message").textContent = data.message;
+          } catch (error) {
+            console.error("Error en el registro:", error);
+            document.getElementById("message").textContent = "Hubo un error.";
+          }
+        });
+    </script>
+  </body>
+</html>
