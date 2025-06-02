@@ -59,6 +59,12 @@
               body: JSON.stringify({ username, email, password }),
             });
 
+            if (!response.ok) {
+              throw new Error("Error en la respuesta del servidor");
+            } else {
+              window.location.href = "/index.html"; // redirigir al index si el registro es exitoso
+            }
+
             const data = await response.json();
             document.getElementById("message").textContent = data.message;
           } catch (error) {

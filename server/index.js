@@ -15,13 +15,13 @@ const port = process.env.PORT || 5000;
 // Middleware para leer JSON en requests
 app.use(express.json()); // <- NECESARIO para manejar datos del frontend como el registro
 
-// Servir archivos estáticos desde la carpeta client
-app.use(express.static(path.join(__dirname, "..", "client")));
-
 // Ruta raíz para servir index.html
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "client", "index.html"));
+  res.sendFile(path.join(__dirname, "..", "client", "register.html"));
 });
+
+// Servir archivos estáticos desde la carpeta client
+app.use(express.static(path.join(__dirname, "..", "client")));
 
 //Rutas de usuario
 app.use("/api/users", userRoutes);
