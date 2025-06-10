@@ -73,8 +73,9 @@
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         if (input.value) {
+          const username = localStorage.getItem("username") || "Usuario";
           socket.emit("chat message", {
-            sender: "Usuario",
+            sender: username,
             message: input.value,
             room: "general",
           });
@@ -85,7 +86,21 @@
       //aqui se crean los mensajes
       socket.on("chat message", (msg) => {
         const item = document.createElement("li");
-        item.textContent = msg.message;
+        const username = msg.sender;
+
+        const usernameElement = document.createElement("h4");
+        usernameElement.textContent = msg.sender;
+        usernameElement.style.margin = "0";
+        usernameElement.style.fontSize = "14px";
+        usernameElement.style.color = "#555";
+
+        const messageText = document.createElement("p");
+        messageText.textContent = msg.message;
+        messageText.style.margin = "0";
+
+        item.appendChild(usernameElement);
+        item.appendChild(messageText);
+
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
