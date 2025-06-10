@@ -18,7 +18,12 @@ function setupSocket(server) {
         await newMessage.save();
         console.log("Mensaje recibido:", newMessage);
 
-        io.emit("chat message", newMessage);
+        io.emit("chat message", {
+          sender: newMessage.sender,
+          message: newMessage.message,
+          room: newMessage.room,
+          createdAt: newMessage.createdAt,
+        });
       } catch (error) {
         console.error("Error al guardar el mensaje:", error);
       }

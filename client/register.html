@@ -62,10 +62,11 @@
             if (!response.ok) {
               throw new Error("Error en la respuesta del servidor");
             } else {
-              localStorage.setItem("username", username);
-              console.log("Usuario guardado en localStorage:", username); // ✅ Verificación en consola
+              // redirigir al index si el registro es exitoso
 
-              window.location.href = "/index.html"; // redirigir al index si el registro es exitoso
+              window.location.href = `/index.html?username=${encodeURIComponent(
+                username
+              )}`;
             }
 
             const data = await response.json();
