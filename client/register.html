@@ -62,6 +62,9 @@
             if (!response.ok) {
               throw new Error("Error en la respuesta del servidor");
             } else {
+              localStorage.setItem("username", username);
+              console.log("Usuario guardado en localStorage:", username); // ✅ Verificación en consola
+
               window.location.href = "/index.html"; // redirigir al index si el registro es exitoso
             }
 

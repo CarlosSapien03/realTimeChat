@@ -82,7 +82,7 @@
           input.value = "";
         }
       });
-
+      //aqui se crean los mensajes
       socket.on("chat message", (msg) => {
         const item = document.createElement("li");
         item.textContent = msg.message;
